@@ -1,27 +1,34 @@
 import './css/styles.css';
 import { fetchCountries } from '../src/js/fetchCountries';
 import debounce from 'lodash.debounce';
-
-// import { example } from './js/examp';
+import { Notify } from 'notiflix';
 
 const DEBOUNCE_DELAY = 300;
 
 const inputEl = document.querySelector('#search-box');
 const ulEl = document.querySelector('.country-list');
 const liEl = document.querySelector('.country-info');
+const bodyEl = document.body;
 
+bodyEl.style.background = '';
+
+//рендер списка країн
 function renderCountryList(countries) {
   const markup = countries
     .map(country => {
       return `<li>
-            <p><b>Name</b>: ${country.name}</p>
-            <img width="100px" heigth="100px" src="${country.flags.svg}"/>
+            <img  src="${country.flags.svg}"/>
+            <span style="
+            align-items: center;
+            vertical-align: middle">
+                ${country.name}</span>
             </li>`;
     })
     .join('');
   ulEl.innerHTML = markup;
 }
 
+// рендер однієї країни
 function renderCountryInfo(countries) {
   let lang = [];
   for (const country of countries) {
@@ -32,10 +39,12 @@ function renderCountryInfo(countries) {
   const markup = countries
     .map(country => {
       return `<li>
-            <p><b>Name</b>: ${country.name}</p>
+            <img src="${country.flags.svg}"/>
+            <span 
+              style="font-size:32px"><b>${country.name}</b>
+            </span>
             <p><b>Capital</b>: ${country.capital}</p>
             <p><b>Population</b>: ${country.population}</p>
-            <img  width="200px" heigth="200px" src="${country.flags.svg}"/>
             <p><b>Languages</b>: ${lang.join(', ')}</p>
             </li>`;
     })
@@ -43,6 +52,7 @@ function renderCountryInfo(countries) {
   liEl.innerHTML = markup;
 }
 
+// умова на введення і показ країн
 function handleInputSpelling(e) {
   ulEl.innerHTML = '';
   liEl.innerHTML = '';
@@ -52,7 +62,7 @@ function handleInputSpelling(e) {
   fetchCountries(e.target.value.trim())
     .then(countries => {
       if (countries.length > 10) {
-        console.log(
+        Notify.info(
           'Too many matches found. Please enter a more specific name.'
         );
         return;
@@ -63,7 +73,7 @@ function handleInputSpelling(e) {
       }
       return renderCountryInfo(countries);
     })
-    .catch(error => console.log(error));
+    .catch(e => Notify.failure(`Oops, there is no country with that name`));
 }
 
 //виклик події input разом з затримкою після вводу

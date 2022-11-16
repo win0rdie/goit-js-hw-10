@@ -8,6 +8,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #fafafa;
+  background-image: url('../images/map3.png');
   color: #212121;
   line-height: 1.5;
 }
@@ -16,5 +17,30 @@ body {
   font: inherit;
   padding: 8px;
   max-width: 320px;
-  margin-bottom: 16px;
+  margin: 40px 0 16px 40px;
+}
+
+.country-list {
+  display: flexbox;
+}
+
+.country-info {
+  padding-left: 40px;
+}
+
+li {
+  list-style-type: none;
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+img {
+  width: 40px;
+  height: 30px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+span {
+  vertical-align: middle;
 }
