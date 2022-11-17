@@ -29,26 +29,17 @@ function renderCountryList(countries) {
 }
 
 // рендер однієї країни
-function renderCountryInfo(countries) {
-  let lang = [];
-  for (const country of countries) {
-    country.languages.map(el => {
-      lang.push(el.name);
-    });
-  }
-  const markup = countries
-    .map(country => {
-      return `<li>
-            <img src="${country.flags.svg}"/>
+function renderCountryInfo([{ languages, name, capital, population, flags }]) {
+  const lang = languages.map(({ name }) => name).join(', ');
+  const markup = `<li>
+            <img src="${flags.svg}"/>
             <span 
-              style="font-size:32px"><b>${country.name}</b>
+              style="font-size:32px"><b>${name}</b>
             </span>
-            <p><b>Capital</b>: ${country.capital}</p>
-            <p><b>Population</b>: ${country.population}</p>
-            <p><b>Languages</b>: ${lang.join(', ')}</p>
+            <p><b>Capital</b>: ${capital}</p>
+            <p><b>Population</b>: ${population}</p>
+            <p><b>Languages</b>: ${lang}</p>
             </li>`;
-    })
-    .join('');
   liEl.innerHTML = markup;
 }
 
